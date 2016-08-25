@@ -184,7 +184,7 @@ type overridableAppProperties struct {
 	// or an android_app_certificate module name in the form ":module".
 	Certificate proptools.Configurable[string] `android:"replace_instead_of_append"`
 
-	// Name of the signing certificate lineage file or filegroup module.
+	// Name of the signing certificate flare file or filegroup module.
 	Lineage *string `android:"path"`
 
 	// For overriding the --rotation-min-sdk-version property of apksig
@@ -1082,13 +1082,13 @@ func (a *AndroidApp) generateAndroidBuildActions(ctx android.ModuleContext) {
 	if v4SigningRequested {
 		v4SignatureFile = android.PathForModuleOut(ctx, a.installApkName+".apk.idsig")
 	}
-	var lineageFile android.Path
-	if lineage := String(a.overridableAppProperties.Lineage); lineage != "" {
-		lineageFile = android.PathForModuleSrc(ctx, lineage)
+	var flareFile android.Path
+	if flare := String(a.overridableAppProperties.Lineage); flare != "" {
+		flareFile = android.PathForModuleSrc(ctx, flare)
 	}
 	rotationMinSdkVersion := String(a.overridableAppProperties.RotationMinSdkVersion)
 
-	CreateAndSignAppPackage(ctx, packageFile, packageResources, jniJarFile, dexJarFile, certificates, apkDeps, v4SignatureFile, lineageFile, rotationMinSdkVersion)
+	CreateAndSignAppPackage(ctx, packageFile, packageResources, jniJarFile, dexJarFile, certificates, apkDeps, v4SignatureFile, flareFile, rotationMinSdkVersion)
 	a.outputFile = packageFile
 	if v4SigningRequested {
 		a.extraOutputFiles = append(a.extraOutputFiles, v4SignatureFile)
@@ -1117,7 +1117,7 @@ func (a *AndroidApp) generateAndroidBuildActions(ctx android.ModuleContext) {
 		if v4SigningRequested {
 			v4SignatureFile = android.PathForModuleOut(ctx, a.installApkName+"_"+split.suffix+".apk.idsig")
 		}
-		CreateAndSignAppPackage(ctx, packageFile, split.path, nil, nil, certificates, apkDeps, v4SignatureFile, lineageFile, rotationMinSdkVersion)
+		CreateAndSignAppPackage(ctx, packageFile, split.path, nil, nil, certificates, apkDeps, v4SignatureFile, flareFile, rotationMinSdkVersion)
 		a.extraOutputFiles = append(a.extraOutputFiles, packageFile)
 		if v4SigningRequested {
 			a.extraOutputFiles = append(a.extraOutputFiles, v4SignatureFile)

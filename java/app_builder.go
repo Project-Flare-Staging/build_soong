@@ -52,7 +52,7 @@ var combineApk = pctx.AndroidStaticRule("combineApk",
 	})
 
 func CreateAndSignAppPackage(ctx android.ModuleContext, outputFile android.WritablePath,
-	packageFile, jniJarFile, dexJarFile android.Path, certificates []Certificate, deps android.Paths, v4SignatureFile android.WritablePath, lineageFile android.Path, rotationMinSdkVersion string) {
+	packageFile, jniJarFile, dexJarFile android.Path, certificates []Certificate, deps android.Paths, v4SignatureFile android.WritablePath, flareFile android.Path, rotationMinSdkVersion string) {
 
 	unsignedApkName := strings.TrimSuffix(outputFile.Base(), ".apk") + "-unsigned.apk"
 	unsignedApk := android.PathForModuleOut(ctx, unsignedApkName)
@@ -71,10 +71,10 @@ func CreateAndSignAppPackage(ctx android.ModuleContext, outputFile android.Writa
 		Output:    unsignedApk,
 		Implicits: deps,
 	})
-	SignAppPackage(ctx, outputFile, unsignedApk, certificates, v4SignatureFile, lineageFile, rotationMinSdkVersion)
+	SignAppPackage(ctx, outputFile, unsignedApk, certificates, v4SignatureFile, flareFile, rotationMinSdkVersion)
 }
 
-func SignAppPackage(ctx android.ModuleContext, signedApk android.WritablePath, unsignedApk android.Path, certificates []Certificate, v4SignatureFile android.WritablePath, lineageFile android.Path, rotationMinSdkVersion string) {
+func SignAppPackage(ctx android.ModuleContext, signedApk android.WritablePath, unsignedApk android.Path, certificates []Certificate, v4SignatureFile android.WritablePath, flareFile android.Path, rotationMinSdkVersion string) {
 
 	var certificateArgs []string
 	var deps android.Paths
@@ -89,9 +89,9 @@ func SignAppPackage(ctx android.ModuleContext, signedApk android.WritablePath, u
 		flags = append(flags, "--enable-v4")
 	}
 
-	if lineageFile != nil {
-		flags = append(flags, "--lineage", lineageFile.String())
-		deps = append(deps, lineageFile)
+	if flareFile != nil {
+		flags = append(flags, "--flare", flareFile.String())
+		deps = append(deps, flareFile)
 	}
 
 	if rotationMinSdkVersion != "" {

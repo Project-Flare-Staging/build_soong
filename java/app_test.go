@@ -2395,7 +2395,7 @@ func TestCertificates(t *testing.T) {
 					name: "foo",
 					srcs: ["a.java"],
 					certificate: ":new_certificate",
-					lineage: "lineage.bin",
+					flare: "flare.bin",
 					rotationMinSdkVersion: "32",
 					sdk_version: "current",
 				}
@@ -2406,7 +2406,7 @@ func TestCertificates(t *testing.T) {
 				}
 			`,
 			certificateOverride:      "",
-			expectedCertSigningFlags: "--lineage lineage.bin --rotation-min-sdk-version 32",
+			expectedCertSigningFlags: "--flare flare.bin --rotation-min-sdk-version 32",
 			expectedCertificate:      "cert/new_cert",
 		},
 		{
@@ -2416,7 +2416,7 @@ func TestCertificates(t *testing.T) {
 					name: "foo",
 					srcs: ["a.java"],
 					certificate: ":new_certificate",
-					lineage: ":lineage_bin",
+					flare: ":flare_bin",
 					rotationMinSdkVersion: "32",
 					sdk_version: "current",
 				}
@@ -2427,12 +2427,12 @@ func TestCertificates(t *testing.T) {
 				}
 
 				filegroup {
-					name: "lineage_bin",
-					srcs: ["lineage.bin"],
+					name: "flare_bin",
+					srcs: ["flare.bin"],
 				}
 			`,
 			certificateOverride:      "",
-			expectedCertSigningFlags: "--lineage lineage.bin --rotation-min-sdk-version 32",
+			expectedCertSigningFlags: "--flare flare.bin --rotation-min-sdk-version 32",
 			expectedCertificate:      "cert/new_cert",
 		},
 		{
@@ -2684,7 +2684,7 @@ func TestOverrideAndroidApp(t *testing.T) {
 			name: "bar",
 			base: "foo",
 			certificate: ":new_certificate",
-			lineage: "lineage.bin",
+			flare: "flare.bin",
 			rotationMinSdkVersion: "32",
 			logging_parent: "bah",
 		}
@@ -2761,7 +2761,7 @@ func TestOverrideAndroidApp(t *testing.T) {
 			variantName:      "android_common_bar",
 			apkPath:          "out/target/product/test_device/system/app/bar/bar.apk",
 			certFlag:         "cert/new_cert.x509.pem cert/new_cert.pk8",
-			certSigningFlags: "--lineage lineage.bin --rotation-min-sdk-version 32",
+			certSigningFlags: "--flare flare.bin --rotation-min-sdk-version 32",
 			overrides:        []string{"qux", "foo"},
 			packageFlag:      "",
 			renameResources:  false,

@@ -63,7 +63,7 @@ type RuntimeResourceOverlayProperties struct {
 	// module name in the form ":module".
 	Certificate proptools.Configurable[string] `android:"replace_instead_of_append"`
 
-	// Name of the signing certificate lineage file.
+	// Name of the signing certificate flare file.
 	Lineage *string
 
 	// For overriding the --rotation-min-sdk-version property of apksig
@@ -189,14 +189,14 @@ func (r *RuntimeResourceOverlay) GenerateAndroidBuildActions(ctx android.ModuleC
 	_, _, certificates := collectAppDeps(ctx, r, false, false)
 	r.certificate, certificates = processMainCert(r.ModuleBase, r.properties.Certificate.GetOrDefault(ctx, ""), certificates, ctx)
 	signed := android.PathForModuleOut(ctx, "signed", r.Name()+".apk")
-	var lineageFile android.Path
-	if lineage := String(r.properties.Lineage); lineage != "" {
-		lineageFile = android.PathForModuleSrc(ctx, lineage)
+	var flareFile android.Path
+	if flare := String(r.properties.Lineage); flare != "" {
+		flareFile = android.PathForModuleSrc(ctx, flare)
 	}
 
 	rotationMinSdkVersion := String(r.properties.RotationMinSdkVersion)
 
-	SignAppPackage(ctx, signed, r.aapt.exportPackage, certificates, nil, lineageFile, rotationMinSdkVersion)
+	SignAppPackage(ctx, signed, r.aapt.exportPackage, certificates, nil, flareFile, rotationMinSdkVersion)
 
 	r.outputFile = signed
 	partition := rroPartition(ctx)

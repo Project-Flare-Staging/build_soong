@@ -33,7 +33,7 @@ func TestRuntimeResourceOverlay(t *testing.T) {
 		runtime_resource_overlay {
 			name: "foo",
 			certificate: "platform",
-			lineage: "lineage.bin",
+			flare: "flare.bin",
 			rotationMinSdkVersion: "32",
 			product_specific: true,
 			static_libs: ["bar"],
@@ -93,7 +93,7 @@ func TestRuntimeResourceOverlay(t *testing.T) {
 	// Check cert signing flags.
 	signedApk := m.Output("signed/foo.apk")
 	actualCertSigningFlags := signedApk.Args["flags"]
-	expectedCertSigningFlags := "--lineage lineage.bin --rotation-min-sdk-version 32"
+	expectedCertSigningFlags := "--flare flare.bin --rotation-min-sdk-version 32"
 	if expectedCertSigningFlags != actualCertSigningFlags {
 		t.Errorf("Incorrect cert signing flags, expected: %q, got: %q", expectedCertSigningFlags, actualCertSigningFlags)
 	}

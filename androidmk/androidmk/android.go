@@ -114,7 +114,7 @@ func init() {
 			"LOCAL_NDK_STL_VARIANT":          "stl",
 			"LOCAL_JAR_MANIFEST":             "manifest",
 			"LOCAL_CERTIFICATE":              "certificate",
-			"LOCAL_CERTIFICATE_LINEAGE":      "lineage",
+			"LOCAL_CERTIFICATE_FLARE":        "flare",
 			"LOCAL_PACKAGE_NAME":             "name",
 			"LOCAL_MODULE_RELATIVE_PATH":     "relative_install_path",
 			"LOCAL_PROTOC_OPTIMIZE_TYPE":     "proto.type",
