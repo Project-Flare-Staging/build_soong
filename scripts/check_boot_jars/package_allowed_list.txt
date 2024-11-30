@@ -285,6 +285,9 @@ com\.oplus\..*
 # PowerShare
 vendor\.lineage\..*
 
+# LMOFreeform
+com\.libremobileos\..*
+
 # QC adds
 com.qualcomm.qti
 com.quicinc.tcmiface
