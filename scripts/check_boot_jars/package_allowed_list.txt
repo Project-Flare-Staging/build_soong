@@ -282,6 +282,9 @@ com\.nvidia\..*
 # OPLUS adds
 com\.oplus\..*
 
+# PowerShare
+vendor\.lineage\..*
+
 # QC adds
 com.qualcomm.qti
 com.quicinc.tcmiface
